@@ -42,7 +42,7 @@ class KotlinApplication {
                             println("thrown north")
                             ServerResponse.ok().body(Mono.just("T"))
                         }
-                        ?: if (countWithoutHits.getAndIncrement() % 10 == 0) {
+                        ?: if (countWithoutHits.getAndIncrement() % 3 == 0) {
                             println("moving forward north")
                             ServerResponse.ok().body(Mono.just("F"))
                         } else if (hitCountValue == 3) {
@@ -60,7 +60,7 @@ class KotlinApplication {
                             println("thrown south")
                             ServerResponse.ok().body(Mono.just("T"))
                         }
-                        ?: if (countWithoutHits.getAndIncrement() % 10 == 0) {
+                        ?: if (countWithoutHits.getAndIncrement() % 3 == 0) {
                             println("moving forward south")
                             ServerResponse.ok().body(Mono.just("F"))
                         } else if (hitCountValue == 3) {
@@ -78,7 +78,7 @@ class KotlinApplication {
                             println("thrown west")
                             ServerResponse.ok().body(Mono.just("T"))
                         }
-                        ?: if (countWithoutHits.getAndIncrement() % 10 == 0) {
+                        ?: if (countWithoutHits.getAndIncrement() % 3 == 0) {
                             println("moving forward west")
                             ServerResponse.ok().body(Mono.just("F"))
                         } else if (hitCountValue == 3) {
@@ -95,7 +95,7 @@ class KotlinApplication {
                             println("thrown east")
                             ServerResponse.ok().body(Mono.just("T"))
                         }
-                        ?: if (countWithoutHits.getAndIncrement() % 10 == 0) {
+                        ?: if (countWithoutHits.getAndIncrement() % 3 == 0) {
                             println("moving forward north")
                             ServerResponse.ok().body(Mono.just("F"))
                         } else if (hitCountValue == 3) {
