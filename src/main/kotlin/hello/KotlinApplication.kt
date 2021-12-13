@@ -37,100 +37,105 @@ class KotlinApplication {
                     hitCountValue = hitCount.incrementAndGet()
                 }
 
-                return@flatMap if (self.direction == "N") {
-                    arenaUpdate.arena.state.values
-                        .firstOrNull { player -> player.x == self.x && player.y - self.y >= -3 && player.y - self.y < 0 }
-                        ?.let {
-                            if (hitCountValue == 3) {
+                return@flatMap when (self.direction) {
+                    "N" -> {
+                        arenaUpdate.arena.state.values
+                            .firstOrNull { player -> player.x == self.x && player.y - self.y >= -3 && player.y - self.y < 0 }
+                            ?.let {
+                                if (hitCountValue == 3) {
+                                    hitCount.set(0)
+                                    println("moving forward north after being hit too many times")
+                                    ServerResponse.ok().body(Mono.just("F"))
+                                } else {
+                                    println("thrown north")
+                                    ServerResponse.ok().body(Mono.just("T"))
+                                }
+                            }
+                            ?: if (countWithoutHits.getAndIncrement() + + tlr.nextInt(0, 2) % 3 == 0) {
+                                println("moving forward north")
+                                ServerResponse.ok().body(Mono.just("F"))
+                            } else if (hitCountValue == 3) {
                                 hitCount.set(0)
                                 println("moving forward north after being hit too many times")
                                 ServerResponse.ok().body(Mono.just("F"))
                             } else {
-                                println("thrown north")
-                                ServerResponse.ok().body(Mono.just("T"))
+                                ServerResponse.ok().body(Mono.just("R"))
                             }
-                        }
-                        ?: if (countWithoutHits.getAndIncrement() + + tlr.nextInt(0, 2) % 3 == 0) {
-                            println("moving forward north")
-                            ServerResponse.ok().body(Mono.just("F"))
-                        } else if (hitCountValue == 3) {
-                            hitCount.set(0)
-                            println("moving forward north after being hit too many times")
-                            ServerResponse.ok().body(Mono.just("F"))
-                        } else {
-                            ServerResponse.ok().body(Mono.just("R"))
-                        }
 
-                } else if (self.direction == "S") {
-                    arenaUpdate.arena.state.values
-                        .firstOrNull { player -> player.x == self.x && player.y - self.y <= 3 && player.y - self.y > 0 }
-                        ?.let {
-                            if (hitCountValue == 3) {
+                    }
+                    "S" -> {
+                        arenaUpdate.arena.state.values
+                            .firstOrNull { player -> player.x == self.x && player.y - self.y <= 3 && player.y - self.y > 0 }
+                            ?.let {
+                                if (hitCountValue == 3) {
+                                    hitCount.set(0)
+                                    println("moving south after being hit too many times")
+                                    ServerResponse.ok().body(Mono.just("F"))
+                                } else {
+                                    println("thrown south")
+                                    ServerResponse.ok().body(Mono.just("T"))
+                                }
+                            }
+                            ?: if (countWithoutHits.getAndIncrement() + + tlr.nextInt(0, 2) % 3 == 0) {
+                                println("moving forward south")
+                                ServerResponse.ok().body(Mono.just("F"))
+                            } else if (hitCountValue == 3) {
                                 hitCount.set(0)
-                                println("moving south after being hit too many times")
+                                println("moving forward south after being hit too many times")
                                 ServerResponse.ok().body(Mono.just("F"))
                             } else {
-                                println("thrown south")
-                                ServerResponse.ok().body(Mono.just("T"))
+                                ServerResponse.ok().body(Mono.just("R"))
                             }
-                        }
-                        ?: if (countWithoutHits.getAndIncrement() + + tlr.nextInt(0, 2) % 3 == 0) {
-                            println("moving forward south")
-                            ServerResponse.ok().body(Mono.just("F"))
-                        } else if (hitCountValue == 3) {
-                            hitCount.set(0)
-                            println("moving forward south after being hit too many times")
-                            ServerResponse.ok().body(Mono.just("F"))
-                        } else {
-                            ServerResponse.ok().body(Mono.just("R"))
-                        }
 
-                } else if (self.direction == "W") {
-                    arenaUpdate.arena.state.values
-                        .firstOrNull { player -> player.y == self.y && player.x - self.x <= -3 && player.y - self.y < 0 }
-                        ?.let {
-                            if (hitCountValue == 3) {
+                    }
+                    "W" -> {
+                        arenaUpdate.arena.state.values
+                            .firstOrNull { player -> player.y == self.y && player.x - self.x <= -3 && player.y - self.y < 0 }
+                            ?.let {
+                                if (hitCountValue == 3) {
+                                    hitCount.set(0)
+                                    println("moving west after being hit too many times")
+                                    ServerResponse.ok().body(Mono.just("F"))
+                                } else {
+                                    println("thrown west")
+                                    ServerResponse.ok().body(Mono.just("T"))
+                                }
+                            }
+                            ?: if (countWithoutHits.getAndIncrement() + + tlr.nextInt(0, 2) % 3 == 0) {
+                                println("moving forward west")
+                                ServerResponse.ok().body(Mono.just("F"))
+                            } else if (hitCountValue == 3) {
                                 hitCount.set(0)
-                                println("moving west after being hit too many times")
+                                println("moving forward West after being hit too many times")
                                 ServerResponse.ok().body(Mono.just("F"))
                             } else {
-                                println("thrown west")
-                                ServerResponse.ok().body(Mono.just("T"))
+                                ServerResponse.ok().body(Mono.just("R"))
                             }
-                        }
-                        ?: if (countWithoutHits.getAndIncrement() + + tlr.nextInt(0, 2) % 3 == 0) {
-                            println("moving forward west")
-                            ServerResponse.ok().body(Mono.just("F"))
-                        } else if (hitCountValue == 3) {
-                            hitCount.set(0)
-                            println("moving forward West after being hit too many times")
-                            ServerResponse.ok().body(Mono.just("F"))
-                        } else {
-                            ServerResponse.ok().body(Mono.just("R"))
-                        }
-                } else {
-                    arenaUpdate.arena.state.values
-                        .firstOrNull { player -> player.y == self.y && player.x - self.x <= 3 && player.x - self.x > 0 }
-                        ?.let {
-                            if (hitCountValue == 3) {
+                    }
+                    else -> {
+                        arenaUpdate.arena.state.values
+                            .firstOrNull { player -> player.y == self.y && player.x - self.x <= 3 && player.x - self.x > 0 }
+                            ?.let {
+                                if (hitCountValue == 3) {
+                                    hitCount.set(0)
+                                    println("moving west after being hit too many times")
+                                    ServerResponse.ok().body(Mono.just("F"))
+                                } else {
+                                    println("thrown west")
+                                    ServerResponse.ok().body(Mono.just("T"))
+                                }
+                            }
+                            ?: if (countWithoutHits.getAndIncrement() + + tlr.nextInt(0, 2) % 3 == 0) {
+                                println("moving forward north")
+                                ServerResponse.ok().body(Mono.just("F"))
+                            } else if (hitCountValue == 3) {
                                 hitCount.set(0)
-                                println("moving west after being hit too many times")
+                                println("moving forward east after being hit too many times")
                                 ServerResponse.ok().body(Mono.just("F"))
                             } else {
-                                println("thrown west")
-                                ServerResponse.ok().body(Mono.just("T"))
+                                ServerResponse.ok().body(Mono.just("R"))
                             }
-                        }
-                        ?: if (countWithoutHits.getAndIncrement() + + tlr.nextInt(0, 2) % 3 == 0) {
-                            println("moving forward north")
-                            ServerResponse.ok().body(Mono.just("F"))
-                        } else if (hitCountValue == 3) {
-                            hitCount.set(0)
-                            println("moving forward east after being hit too many times")
-                            ServerResponse.ok().body(Mono.just("F"))
-                        } else {
-                            ServerResponse.ok().body(Mono.just("R"))
-                        }
+                    }
                 }
             }
         }
