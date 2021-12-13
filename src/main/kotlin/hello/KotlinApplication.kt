@@ -17,6 +17,7 @@ class KotlinApplication {
     var countWithoutHits = AtomicInteger(0)
     val hitCount = AtomicInteger(0)
     val tlr = ThreadLocalRandom.current()
+    var lastScore = 0
 
     @Bean
     fun routes() = router {
@@ -100,7 +101,7 @@ class KotlinApplication {
                     }
                     "W" -> {
                         arenaUpdate.arena.state.values
-                            .firstOrNull { player -> player.y == self.y && player.x - self.x <= -3 && player.x - self.x < 0 }
+                            .firstOrNull { player -> player.y == self.y && player.x - self.x >= -3 && player.x - self.x < 0 }
                             ?.let {
                                 if (hitCountValue == 3) {
                                     hitCount.set(0)
@@ -129,7 +130,7 @@ class KotlinApplication {
                     }
                     else -> {
                         arenaUpdate.arena.state.values
-                            .firstOrNull { player -> player.y == self.y && player.x - self.x <= 3 && player.x - self.x > 0 }
+                            .firstOrNull { player -> player.y == self.y && player.x - self.x >= 3 && player.x - self.x > 0 }
                             ?.let {
                                 if (hitCountValue == 3) {
                                     hitCount.set(0)
@@ -141,7 +142,7 @@ class KotlinApplication {
                                         ServerResponse.ok().body(Mono.just("F"))
                                     }
                                 } else {
-                                    println("thrown west")
+                                    println("thrown east")
                                     ServerResponse.ok().body(Mono.just("T"))
                                 }
                             }
