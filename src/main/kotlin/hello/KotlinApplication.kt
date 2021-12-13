@@ -32,30 +32,48 @@ class KotlinApplication {
                     arenaUpdate.arena.state.values
                         .firstOrNull { player -> player.y == self.y && player.y - self.y >= -3 && player.y - self.y < 0 }
                         ?.let {
+                            println("thrown north")
                             ServerResponse.ok().body(Mono.just("T"))
                         }
                         ?: ServerResponse.ok().body(Mono.just("R"))
+                            .also {
+                                println("rotated right from North")
+                            }
+
                 } else if (self.direction == "S") {
                     arenaUpdate.arena.state.values
                         .firstOrNull { player -> player.y == self.y && player.y - self.y <= 3 && player.y - self.y > 0 }
                         ?.let {
+                            println("thrown south")
                             ServerResponse.ok().body(Mono.just("T"))
                         }
                         ?: ServerResponse.ok().body(Mono.just("R"))
+                            .also {
+                                println("rotated right from South")
+                            }
+
                 } else if (self.direction == "W") {
                     arenaUpdate.arena.state.values
                         .firstOrNull { player -> player.y == self.y && player.x - self.x <= -3 && player.y - self.y < 0 }
                         ?.let {
+                            println("thrown west")
                             ServerResponse.ok().body(Mono.just("T"))
                         }
                         ?: ServerResponse.ok().body(Mono.just("R"))
+                            .also {
+                                println("rotated right from West")
+                            }
                 } else {
                     arenaUpdate.arena.state.values
                         .firstOrNull { player -> player.y == self.y && player.x - self.x <= 3 && player.x - self.x > 0 }
                         ?.let {
+                            println("thrown east")
                             ServerResponse.ok().body(Mono.just("T"))
                         }
                         ?: ServerResponse.ok().body(Mono.just("R"))
+                            .also {
+                                println("rotated right from East")
+                            }
                 }
             }
         }
