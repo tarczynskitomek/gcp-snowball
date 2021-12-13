@@ -13,7 +13,7 @@ import java.util.concurrent.atomic.AtomicInteger
 @SpringBootApplication
 class KotlinApplication {
 
-    var count = AtomicInteger(0)
+    var countWithoutHits = AtomicInteger(0)
 
     @Bean
     fun routes() = router {
@@ -30,27 +30,31 @@ class KotlinApplication {
 
                 return@flatMap if (self.direction == "N") {
                     arenaUpdate.arena.state.values
-                        .firstOrNull { player -> player.y == self.y && player.y - self.y >= -3 && player.y - self.y < 0 }
+                        .firstOrNull { player -> player.x == self.x && player.y - self.y >= -3 && player.y - self.y < 0 }
                         ?.let {
                             println("thrown north")
                             ServerResponse.ok().body(Mono.just("T"))
                         }
-                        ?: ServerResponse.ok().body(Mono.just("R"))
-                            .also {
-                                println("rotated right from North")
-                            }
+                        ?: if (countWithoutHits.getAndIncrement() % 10 == 0) {
+                            println("moving forward north")
+                            ServerResponse.ok().body(Mono.just("F"))
+                        } else {
+                            ServerResponse.ok().body(Mono.just("R"))
+                        }
 
                 } else if (self.direction == "S") {
                     arenaUpdate.arena.state.values
-                        .firstOrNull { player -> player.y == self.y && player.y - self.y <= 3 && player.y - self.y > 0 }
+                        .firstOrNull { player -> player.x == self.x && player.y - self.y <= 3 && player.y - self.y > 0 }
                         ?.let {
                             println("thrown south")
                             ServerResponse.ok().body(Mono.just("T"))
                         }
-                        ?: ServerResponse.ok().body(Mono.just("R"))
-                            .also {
-                                println("rotated right from South")
-                            }
+                        ?: if (countWithoutHits.getAndIncrement() % 10 == 0) {
+                            println("moving forward south")
+                            ServerResponse.ok().body(Mono.just("F"))
+                        } else {
+                            ServerResponse.ok().body(Mono.just("R"))
+                        }
 
                 } else if (self.direction == "W") {
                     arenaUpdate.arena.state.values
@@ -59,10 +63,12 @@ class KotlinApplication {
                             println("thrown west")
                             ServerResponse.ok().body(Mono.just("T"))
                         }
-                        ?: ServerResponse.ok().body(Mono.just("R"))
-                            .also {
-                                println("rotated right from West")
-                            }
+                        ?: if (countWithoutHits.getAndIncrement() % 10 == 0) {
+                            println("moving forward west")
+                            ServerResponse.ok().body(Mono.just("F"))
+                        } else {
+                            ServerResponse.ok().body(Mono.just("R"))
+                        }
                 } else {
                     arenaUpdate.arena.state.values
                         .firstOrNull { player -> player.y == self.y && player.x - self.x <= 3 && player.x - self.x > 0 }
@@ -70,10 +76,12 @@ class KotlinApplication {
                             println("thrown east")
                             ServerResponse.ok().body(Mono.just("T"))
                         }
-                        ?: ServerResponse.ok().body(Mono.just("R"))
-                            .also {
-                                println("rotated right from East")
-                            }
+                        ?: if (countWithoutHits.getAndIncrement() % 10 == 0) {
+                            println("moving forward north")
+                            ServerResponse.ok().body(Mono.just("F"))
+                        } else {
+                            ServerResponse.ok().body(Mono.just("R"))
+                        }
                 }
             }
         }
