@@ -28,17 +28,35 @@ class KotlinApplication {
 
                 println(self)
 
-                if (self.direction == "N") {
-                    
+                return@flatMap if (self.direction == "N") {
+                    arenaUpdate.arena.state.values
+                        .firstOrNull { player -> player.y == self.y && player.y - self.y >= -3 && player.y - self.y < 0 }
+                        ?.let {
+                            ServerResponse.ok().body(Mono.just("T"))
+                        }
+                        ?: ServerResponse.ok().body(Mono.just("R"))
                 } else if (self.direction == "S") {
-
+                    arenaUpdate.arena.state.values
+                        .firstOrNull { player -> player.y == self.y && player.y - self.y <= 3 && player.y - self.y > 0 }
+                        ?.let {
+                            ServerResponse.ok().body(Mono.just("T"))
+                        }
+                        ?: ServerResponse.ok().body(Mono.just("R"))
                 } else if (self.direction == "W") {
-
+                    arenaUpdate.arena.state.values
+                        .firstOrNull { player -> player.y == self.y && player.x - self.x <= -3 && player.y - self.y < 0 }
+                        ?.let {
+                            ServerResponse.ok().body(Mono.just("T"))
+                        }
+                        ?: ServerResponse.ok().body(Mono.just("R"))
                 } else {
-
+                    arenaUpdate.arena.state.values
+                        .firstOrNull { player -> player.y == self.y && player.x - self.x <= 3 && player.x - self.x > 0 }
+                        ?.let {
+                            ServerResponse.ok().body(Mono.just("T"))
+                        }
+                        ?: ServerResponse.ok().body(Mono.just("R"))
                 }
-
-                ServerResponse.ok().body(Mono.just("T"))
             }
         }
     }
