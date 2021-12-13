@@ -14,6 +14,7 @@ import java.util.concurrent.atomic.AtomicInteger
 class KotlinApplication {
 
     var countWithoutHits = AtomicInteger(0)
+    val hitCount = AtomicInteger(0)
 
     @Bean
     fun routes() = router {
@@ -28,6 +29,12 @@ class KotlinApplication {
 
                 println(self)
 
+                var hitCountValue = 0
+
+                if (self.wasHit) {
+                    hitCountValue = hitCount.incrementAndGet()
+                }
+
                 return@flatMap if (self.direction == "N") {
                     arenaUpdate.arena.state.values
                         .firstOrNull { player -> player.x == self.x && player.y - self.y >= -3 && player.y - self.y < 0 }
@@ -37,6 +44,10 @@ class KotlinApplication {
                         }
                         ?: if (countWithoutHits.getAndIncrement() % 10 == 0) {
                             println("moving forward north")
+                            ServerResponse.ok().body(Mono.just("F"))
+                        } else if (hitCountValue == 3) {
+                            hitCount.set(0)
+                            println("moving forward north after being hit too many times")
                             ServerResponse.ok().body(Mono.just("F"))
                         } else {
                             ServerResponse.ok().body(Mono.just("R"))
@@ -52,6 +63,10 @@ class KotlinApplication {
                         ?: if (countWithoutHits.getAndIncrement() % 10 == 0) {
                             println("moving forward south")
                             ServerResponse.ok().body(Mono.just("F"))
+                        } else if (hitCountValue == 3) {
+                            hitCount.set(0)
+                            println("moving forward south after being hit too many times")
+                            ServerResponse.ok().body(Mono.just("F"))
                         } else {
                             ServerResponse.ok().body(Mono.just("R"))
                         }
@@ -66,6 +81,10 @@ class KotlinApplication {
                         ?: if (countWithoutHits.getAndIncrement() % 10 == 0) {
                             println("moving forward west")
                             ServerResponse.ok().body(Mono.just("F"))
+                        } else if (hitCountValue == 3) {
+                            hitCount.set(0)
+                            println("moving forward West after being hit too many times")
+                            ServerResponse.ok().body(Mono.just("F"))
                         } else {
                             ServerResponse.ok().body(Mono.just("R"))
                         }
@@ -78,6 +97,10 @@ class KotlinApplication {
                         }
                         ?: if (countWithoutHits.getAndIncrement() % 10 == 0) {
                             println("moving forward north")
+                            ServerResponse.ok().body(Mono.just("F"))
+                        } else if (hitCountValue == 3) {
+                            hitCount.set(0)
+                            println("moving forward east after being hit too many times")
                             ServerResponse.ok().body(Mono.just("F"))
                         } else {
                             ServerResponse.ok().body(Mono.just("R"))
