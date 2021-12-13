@@ -39,8 +39,14 @@ class KotlinApplication {
                     arenaUpdate.arena.state.values
                         .firstOrNull { player -> player.x == self.x && player.y - self.y >= -3 && player.y - self.y < 0 }
                         ?.let {
-                            println("thrown north")
-                            ServerResponse.ok().body(Mono.just("T"))
+                            if (hitCountValue == 3) {
+                                hitCount.set(0)
+                                println("moving forward north after being hit too many times")
+                                ServerResponse.ok().body(Mono.just("F"))
+                            } else {
+                                println("thrown north")
+                                ServerResponse.ok().body(Mono.just("T"))
+                            }
                         }
                         ?: if (countWithoutHits.getAndIncrement() % 3 == 0) {
                             println("moving forward north")
@@ -57,8 +63,14 @@ class KotlinApplication {
                     arenaUpdate.arena.state.values
                         .firstOrNull { player -> player.x == self.x && player.y - self.y <= 3 && player.y - self.y > 0 }
                         ?.let {
-                            println("thrown south")
-                            ServerResponse.ok().body(Mono.just("T"))
+                            if (hitCountValue == 3) {
+                                hitCount.set(0)
+                                println("moving south after being hit too many times")
+                                ServerResponse.ok().body(Mono.just("F"))
+                            } else {
+                                println("thrown south")
+                                ServerResponse.ok().body(Mono.just("T"))
+                            }
                         }
                         ?: if (countWithoutHits.getAndIncrement() % 3 == 0) {
                             println("moving forward south")
@@ -75,8 +87,14 @@ class KotlinApplication {
                     arenaUpdate.arena.state.values
                         .firstOrNull { player -> player.y == self.y && player.x - self.x <= -3 && player.y - self.y < 0 }
                         ?.let {
-                            println("thrown west")
-                            ServerResponse.ok().body(Mono.just("T"))
+                            if (hitCountValue == 3) {
+                                hitCount.set(0)
+                                println("moving west after being hit too many times")
+                                ServerResponse.ok().body(Mono.just("F"))
+                            } else {
+                                println("thrown west")
+                                ServerResponse.ok().body(Mono.just("T"))
+                            }
                         }
                         ?: if (countWithoutHits.getAndIncrement() % 3 == 0) {
                             println("moving forward west")
@@ -92,8 +110,14 @@ class KotlinApplication {
                     arenaUpdate.arena.state.values
                         .firstOrNull { player -> player.y == self.y && player.x - self.x <= 3 && player.x - self.x > 0 }
                         ?.let {
-                            println("thrown east")
-                            ServerResponse.ok().body(Mono.just("T"))
+                            if (hitCountValue == 3) {
+                                hitCount.set(0)
+                                println("moving west after being hit too many times")
+                                ServerResponse.ok().body(Mono.just("F"))
+                            } else {
+                                println("thrown west")
+                                ServerResponse.ok().body(Mono.just("T"))
+                            }
                         }
                         ?: if (countWithoutHits.getAndIncrement() % 3 == 0) {
                             println("moving forward north")
