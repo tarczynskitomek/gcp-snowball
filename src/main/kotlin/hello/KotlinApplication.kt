@@ -56,7 +56,7 @@ class KotlinApplication {
                                     ServerResponse.ok().body(Mono.just("T"))
                                 }
                             }
-                            ?: if (countWithoutHits.getAndIncrement() + + tlr.nextInt(0, 2) % 3 == 0) {
+                            ?: if ((countWithoutHits.getAndIncrement() + tlr.nextInt(0, 2)) % 3 == 0) {
                                 println("moving forward north")
                                 ServerResponse.ok().body(Mono.just("F"))
                             } else if (hitCountValue == 3) {
@@ -86,7 +86,7 @@ class KotlinApplication {
                                     ServerResponse.ok().body(Mono.just("T"))
                                 }
                             }
-                            ?: if (countWithoutHits.getAndIncrement() + + tlr.nextInt(0, 2) % 3 == 0) {
+                            ?: if ((countWithoutHits.getAndIncrement() + tlr.nextInt(0, 2)) % 3 == 0) {
                                 println("moving forward south")
                                 ServerResponse.ok().body(Mono.just("F"))
                             } else if (hitCountValue == 3) {
@@ -100,7 +100,7 @@ class KotlinApplication {
                     }
                     "W" -> {
                         arenaUpdate.arena.state.values
-                            .firstOrNull { player -> player.y == self.y && player.x - self.x <= -3 && player.y - self.y < 0 }
+                            .firstOrNull { player -> player.y == self.y && player.x - self.x <= -3 && player.x - self.x < 0 }
                             ?.let {
                                 if (hitCountValue == 3) {
                                     hitCount.set(0)
@@ -116,7 +116,7 @@ class KotlinApplication {
                                     ServerResponse.ok().body(Mono.just("T"))
                                 }
                             }
-                            ?: if (countWithoutHits.getAndIncrement() + + tlr.nextInt(0, 2) % 3 == 0) {
+                            ?: if ((countWithoutHits.getAndIncrement() + tlr.nextInt(0, 2)) % 3 == 0) {
                                 println("moving forward west")
                                 ServerResponse.ok().body(Mono.just("F"))
                             } else if (hitCountValue == 3) {
@@ -145,7 +145,7 @@ class KotlinApplication {
                                     ServerResponse.ok().body(Mono.just("T"))
                                 }
                             }
-                            ?: if (countWithoutHits.getAndIncrement() + + tlr.nextInt(0, 2) % 3 == 0) {
+                            ?: if ((countWithoutHits.getAndIncrement() + tlr.nextInt(0, 2)) % 3 == 0) {
                                 println("moving forward north")
                                 ServerResponse.ok().body(Mono.just("F"))
                             } else if (hitCountValue == 3) {
