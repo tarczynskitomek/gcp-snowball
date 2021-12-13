@@ -8,6 +8,7 @@ import org.springframework.web.reactive.function.server.ServerResponse
 import org.springframework.web.reactive.function.server.body
 import org.springframework.web.reactive.function.server.router
 import reactor.core.publisher.Mono
+import java.util.concurrent.ThreadLocalRandom
 import java.util.concurrent.atomic.AtomicInteger
 
 @SpringBootApplication
@@ -15,6 +16,7 @@ class KotlinApplication {
 
     var countWithoutHits = AtomicInteger(0)
     val hitCount = AtomicInteger(0)
+    val tlr = ThreadLocalRandom.current()
 
     @Bean
     fun routes() = router {
@@ -48,7 +50,7 @@ class KotlinApplication {
                                 ServerResponse.ok().body(Mono.just("T"))
                             }
                         }
-                        ?: if (countWithoutHits.getAndIncrement() % 3 == 0) {
+                        ?: if (countWithoutHits.getAndIncrement() + + tlr.nextInt(0, 2) % 3 == 0) {
                             println("moving forward north")
                             ServerResponse.ok().body(Mono.just("F"))
                         } else if (hitCountValue == 3) {
@@ -72,7 +74,7 @@ class KotlinApplication {
                                 ServerResponse.ok().body(Mono.just("T"))
                             }
                         }
-                        ?: if (countWithoutHits.getAndIncrement() % 3 == 0) {
+                        ?: if (countWithoutHits.getAndIncrement() + + tlr.nextInt(0, 2) % 3 == 0) {
                             println("moving forward south")
                             ServerResponse.ok().body(Mono.just("F"))
                         } else if (hitCountValue == 3) {
@@ -96,7 +98,7 @@ class KotlinApplication {
                                 ServerResponse.ok().body(Mono.just("T"))
                             }
                         }
-                        ?: if (countWithoutHits.getAndIncrement() % 3 == 0) {
+                        ?: if (countWithoutHits.getAndIncrement() + + tlr.nextInt(0, 2) % 3 == 0) {
                             println("moving forward west")
                             ServerResponse.ok().body(Mono.just("F"))
                         } else if (hitCountValue == 3) {
@@ -119,7 +121,7 @@ class KotlinApplication {
                                 ServerResponse.ok().body(Mono.just("T"))
                             }
                         }
-                        ?: if (countWithoutHits.getAndIncrement() % 3 == 0) {
+                        ?: if (countWithoutHits.getAndIncrement() + + tlr.nextInt(0, 2) % 3 == 0) {
                             println("moving forward north")
                             ServerResponse.ok().body(Mono.just("F"))
                         } else if (hitCountValue == 3) {
