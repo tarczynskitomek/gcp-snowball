@@ -130,7 +130,7 @@ class KotlinApplication {
                     }
                     else -> {
                         arenaUpdate.arena.state.values
-                            .firstOrNull { player -> player.y == self.y && player.x - self.x >= 3 && player.x - self.x > 0 }
+                            .firstOrNull { player -> player.y == self.y && player.x - self.x <= 3 && player.x - self.x > 0 }
                             ?.let {
                                 if (hitCountValue == 3) {
                                     hitCount.set(0)
