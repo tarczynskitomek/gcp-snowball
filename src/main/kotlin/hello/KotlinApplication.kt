@@ -44,8 +44,13 @@ class KotlinApplication {
                             ?.let {
                                 if (hitCountValue == 3) {
                                     hitCount.set(0)
-                                    println("moving forward north after being hit too many times")
-                                    ServerResponse.ok().body(Mono.just("F"))
+                                    if (tlr.nextInt(0, 1) == 0) {
+                                        println("rotating north after being hit too many times")
+                                        ServerResponse.ok().body(Mono.just("R"))
+                                    } else {
+                                        println("moving forward north after being hit too many times")
+                                        ServerResponse.ok().body(Mono.just("F"))
+                                    }
                                 } else {
                                     println("thrown north")
                                     ServerResponse.ok().body(Mono.just("T"))
@@ -69,8 +74,13 @@ class KotlinApplication {
                             ?.let {
                                 if (hitCountValue == 3) {
                                     hitCount.set(0)
-                                    println("moving south after being hit too many times")
-                                    ServerResponse.ok().body(Mono.just("F"))
+                                    if (tlr.nextInt(0, 1) == 0) {
+                                        println("rotating south after being hit too many times")
+                                        ServerResponse.ok().body(Mono.just("R"))
+                                    } else {
+                                        println("moving forward south after being hit too many times")
+                                        ServerResponse.ok().body(Mono.just("F"))
+                                    }
                                 } else {
                                     println("thrown south")
                                     ServerResponse.ok().body(Mono.just("T"))
@@ -94,8 +104,13 @@ class KotlinApplication {
                             ?.let {
                                 if (hitCountValue == 3) {
                                     hitCount.set(0)
-                                    println("moving west after being hit too many times")
-                                    ServerResponse.ok().body(Mono.just("F"))
+                                    if (tlr.nextInt(0, 1) == 0) {
+                                        println("rotating west after being hit too many times")
+                                        ServerResponse.ok().body(Mono.just("R"))
+                                    } else {
+                                        println("moving forward west after being hit too many times")
+                                        ServerResponse.ok().body(Mono.just("F"))
+                                    }
                                 } else {
                                     println("thrown west")
                                     ServerResponse.ok().body(Mono.just("T"))
@@ -118,8 +133,13 @@ class KotlinApplication {
                             ?.let {
                                 if (hitCountValue == 3) {
                                     hitCount.set(0)
-                                    println("moving west after being hit too many times")
-                                    ServerResponse.ok().body(Mono.just("F"))
+                                    if (tlr.nextInt(0, 1) == 0) {
+                                        println("rotating east after being hit too many times")
+                                        ServerResponse.ok().body(Mono.just("R"))
+                                    } else {
+                                        println("moving forward east after being hit too many times")
+                                        ServerResponse.ok().body(Mono.just("F"))
+                                    }
                                 } else {
                                     println("thrown west")
                                     ServerResponse.ok().body(Mono.just("T"))
